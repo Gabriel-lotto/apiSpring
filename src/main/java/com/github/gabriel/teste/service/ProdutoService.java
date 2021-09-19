@@ -27,6 +27,16 @@ public class ProdutoService {
         return produto.getId();
     }
 
+    public Optional<Produto> editarProduto(long id, Produto produto) {
+        return produtoRepository.findById(id)
+                .map(prod -> {
+                   prod.setNome(produto.getNome());
+                   prod.setValor(produto.getValor());
+                   produtoRepository.save(prod);
+                   return produto;
+                });
+    }
+
     public Optional<Produto> deletarProduto(long id) {
         return produtoRepository.findById(id)
                 .map(produto -> {

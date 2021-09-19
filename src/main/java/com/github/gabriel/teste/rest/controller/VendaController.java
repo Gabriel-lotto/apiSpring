@@ -1,7 +1,8 @@
 package com.github.gabriel.teste.rest.controller;
 
 
-import com.github.gabriel.teste.domain.entity.Venda;
+import com.github.gabriel.teste.domain.entity.ProdutoVenda;
+import com.github.gabriel.teste.rest.dto.InformacoesVendasDTO;
 import com.github.gabriel.teste.service.VendaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,25 +18,25 @@ public class VendaController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<Venda> listarTodos() {
+    public List<InformacoesVendasDTO> listarTodos() {
         return vendaService.listarTodos();
     }
 
     @GetMapping("{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Venda listarPorId(@PathVariable(name = "id") long id) {
-        return vendaService.listarPorId(id).get();
+    public ProdutoVenda listarPorId(@PathVariable(name = "id") long id) {
+        return vendaService.listarPorId(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Long Inserir(@RequestBody Venda venda) {
+    public Long Inserir(@RequestBody ProdutoVenda venda) {
         return vendaService.inserirVenda(venda);
     }
 
-    @DeleteMapping("{id}")
+    @PutMapping("{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void deletarCliente(@PathVariable(name = "id") long id) {
-        vendaService.deletarVenda(id).orElseThrow(() -> new RuntimeException(" venda não encontrada"));
+    public void editarVenda(@PathVariable(name = "id") long id, @RequestBody ProdutoVenda venda) {
+        vendaService.editarVenda(id, venda).orElseThrow(() -> new RuntimeException("cliente não encontrado"));
     }
 }

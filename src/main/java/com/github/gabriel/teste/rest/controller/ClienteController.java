@@ -28,8 +28,14 @@ public class ClienteController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Long Inserir(@RequestBody Cliente cliente){
+    public Long inserir(@RequestBody Cliente cliente) {
         return clienteService.inserirCliente(cliente);
+    }
+
+    @PutMapping("{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public void editarCliente(@PathVariable(name = "id") long id,@RequestBody Cliente cliente) {
+        clienteService.editarCliente(id, cliente).orElseThrow(() -> new RuntimeException("cliente não encontrado"));
     }
 
     @DeleteMapping("{id}")

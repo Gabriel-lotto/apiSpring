@@ -33,6 +33,12 @@ public class ProdutoController {
         return produtoService.inserirProduto(produto);
     }
 
+    @PutMapping("{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public void editarProduto(@PathVariable(name = "id") long id, @RequestBody Produto produto) {
+        produtoService.editarProduto(id, produto).orElseThrow(() -> new RuntimeException("produto não encontrado"));
+    }
+
     @DeleteMapping("{id}")
     @ResponseStatus(HttpStatus.OK)
     public void deletarProduto(@PathVariable(name = "id") long id) {

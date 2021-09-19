@@ -1,4 +1,5 @@
 package com.github.gabriel.teste.service;
+
 import com.github.gabriel.teste.domain.entity.Cliente;
 import com.github.gabriel.teste.domain.repository.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ClienteService {//injeção de dependência
+public class ClienteService {
     @Autowired
     private ClienteRepository clienteRepository;
 
@@ -26,7 +27,17 @@ public class ClienteService {//injeção de dependência
         return cliente.getId();
     }
 
-    public Optional<Cliente> deletarCliente(long id){
+    public Optional<Cliente> editarCliente(long id, Cliente cliente) {
+        return clienteRepository.findById(id)
+                .map(cli -> {
+                    cli.setNome(cliente.getNome());
+                    cli.setCpfCnpj(cliente.getCpfCnpj());
+                    clienteRepository.save(cli);
+                    return cli;
+                });
+    }
+
+    public Optional<Cliente> deletarCliente(long id) {
         return clienteRepository.findById(id)
                 .map(cliente -> {
                     clienteRepository.delete(cliente);
@@ -34,4 +45,3 @@ public class ClienteService {//injeção de dependência
                 });
     }
 }
-//regras de negocio sao  tratadas na camada de service
